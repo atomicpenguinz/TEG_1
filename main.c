@@ -16,6 +16,7 @@ int main() {
 	do {
 		menu();
 		scanf("%d", &opt);
+
 		switch(opt){ 
 			case 0:
 				printf("Saindo...\n");
@@ -33,7 +34,7 @@ int main() {
 					return -3;
 				}
 
-				if(valores[0])
+				if(!valores[0])
 					printf("O grafo analisado é simples.\n");
 				else
 					printf("O grafo analisado é um multigrafo."
@@ -54,9 +55,9 @@ int main() {
 void menu() {
 	printf("Escolha:\n"
 			"0 - Sair"
-			"1 - Determinar grau máximo do grafo."
-			"2 - Determinar grau mínimo do grafo."
+			"1 - Determinar grau máximo do grafo"
+			"2 - Determinar grau mínimo do grafo"
 			"3 - Determinar se o grafo é simples ou multigrafo"
-			"4 - Determinar quantos componentes conexos existem no grafo."
+			"4 - Determinar quantos componentes conexos existem no grafo"
 			);
 }
