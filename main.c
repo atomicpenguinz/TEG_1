@@ -38,6 +38,7 @@ int main() {
 					printf("O grafo analisado é um multigrafo."
 					       "Possui %u laços e %u arestas múltiplas.\n",
 					   		valores[1], valores[2]);	
+				free(valores);
 				break;
 			}
 			case 4:
