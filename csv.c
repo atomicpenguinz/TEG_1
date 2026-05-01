@@ -24,7 +24,7 @@ uint maior_indice(FILE *f) {
 Grafo *cria_grafo_csv(char *arquivo) {
 	FILE *file = fopen(arquivo, "r");
 	if(file == NULL) {
-		printf("Arquivo %s não encontrado.\n", arquivo); // mensagem nao ficará aqui
+		printf("Arquivo %s não encontrado.\n", arquivo);
 		return NULL;
 	}
 	Grafo *g = cria_grafo(maior_indice(file));
