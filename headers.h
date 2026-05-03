@@ -5,13 +5,13 @@
 #define ARQUIVO "teste2.csv"
 
 typedef struct nodo {
-	int vertice;
-	struct nodo *prox;
+    int vertice;
+    struct nodo *prox;
 } Nodo;
 
 typedef struct {
-	Nodo **array;
-	uint count;
+    Nodo **array;
+    uint count;
 } Grafo, ListaAdjacencia;
 
 /* ls_adj.c */
