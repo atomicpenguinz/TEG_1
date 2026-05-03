@@ -37,7 +37,8 @@ Grafo *cria_grafo_csv(char *arquivo) {
 	char line[50];
 	while(fgets(line, sizeof(line), file)) {
 		uint a, b;
-		sscanf(line, "%u,%u", &a, &b);
+		if(sscanf(line, "%u,%u", &a, &b) != 2)
+			continue;
 		add_nodo(g, a, b);
 		if(a != b)
 			add_nodo(g, b, a);

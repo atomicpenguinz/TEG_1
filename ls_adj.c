@@ -68,7 +68,7 @@ static uint duplicados_lista(Nodo *head, uint vertices, uint index, uint *lacos)
 }
 
 static uint grau_vertice_aux(Nodo *head, int acc) {
-	return (head->prox == NULL) ?
+	return (head == NULL) ?
 				acc :
 				grau_vertice_aux(head->prox, acc + 1);
 }
@@ -127,6 +127,7 @@ uint grau_maximo(Grafo *g) {
 	uint maior = 0;
 	for(uint i = 1; i < g->count; i++) {
 		uint grau = grau_vertice(g->array[i]);
+		// if(grau >= 3) printf("vertice %u grau %u\n", i, grau); // DEBUG
 		if(maior < grau) 
 			maior = grau;
 	}
@@ -135,7 +136,7 @@ uint grau_maximo(Grafo *g) {
 
 uint grau_minimo(Grafo *g) {
 	if(g->count == 0) return 0;
-	uint menor = grau_vertice(g->array[0]);
+	uint menor = 0;
 	for(uint i = 1; i < g->count; i++) {
 		uint grau = grau_vertice(g->array[i]);
 		if(menor > grau)
