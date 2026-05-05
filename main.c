@@ -1,5 +1,9 @@
 #include "headers.h"
 
+#ifndef ARQUIVO
+#error "Arquivo não definido."
+#endif
+
 int main() {
     ListaAdjacencia *grafo = cria_grafo_csv(ARQUIVO);
     if(!grafo) {
