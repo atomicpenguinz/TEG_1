@@ -3,6 +3,9 @@
 #include <stdlib.h>
 
 #define ARQUIVO "teste2.csv"
+#ifndef ARQUIVO
+#error "Arquivo não definido."
+#endif
 
 typedef struct nodo {
     int vertice;

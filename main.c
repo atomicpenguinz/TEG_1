@@ -1,16 +1,12 @@
 #include "headers.h"
 
 int main() {
-#ifndef ARQUIVO
-    printf("Arquivo não definido.\n");
-    return -1;
-#endif
-
     ListaAdjacencia *grafo = cria_grafo_csv(ARQUIVO);
     if(!grafo) {
         printf("Saindo...\n");
         return -2;
     }
+    printf("Lista de Adjacências criada a partir de \"%s\"\n", ARQUIVO);
 
     int opt = -1;
     do {
@@ -49,6 +45,7 @@ int main() {
             printf("Opção inválida.\n");
         }
     } while(opt != 0);
+    return 1;
 }
 
 
