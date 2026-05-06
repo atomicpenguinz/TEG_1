@@ -1,13 +1,5 @@
 #include "headers.h"
 
-void SSV_para_CSV(char *arquivo) {
-    char comando[100];
-    snprintf(comando, sizeof(comando),
-             "tr ' ' ',' < %s > file.tmp.csv;"
-             "mv --force file.tmp.csv %s", arquivo, arquivo);
-    system(comando);
-}
-
 uint maior_indice(FILE *f) {
     char line[32];
     uint a, b;
