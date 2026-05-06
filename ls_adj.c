@@ -45,7 +45,10 @@ void add_nodo(Grafo *g, uint novo, uint index) {
     g->array[index] = new;
 }
 
-static uint duplicados_lista(Nodo *head, uint vertices, uint index, uint *lacos) {
+static uint duplicados_lista_old(Nodo *head, uint vertices, uint index, uint *lacos) {
+    // Versão antiga da função duplicados_lista, que usa
+    // um vetor de frequência para contar duplicados
+    // planejo falar sobre isso no relatório
     uint *freq = calloc(vertices, sizeof(uint));
     if(!freq) return 0;
 
@@ -83,7 +86,7 @@ static int compara_uint(const void *a, const void *b) {
     return (x > y) - (x < y);
 }
 
-static uint duplicados_lista_novo(Nodo *head, uint vertices, uint index, uint *lacos) {
+static uint duplicados_lista(Nodo *head, uint index, uint *lacos) {
     uint tam = grau_vertice(head);
     uint *array = malloc(sizeof(uint) * tam);
     if(!array) return 0;
@@ -110,7 +113,7 @@ uint *is_multigrafo(Grafo *g) {
     uint mArestas = 0;
     uint lacos = 0;
     for(int i = 0; i < g->count; i++)
-        mArestas += duplicados_lista(g->array[i], g->count, i, &lacos);
+        mArestas += duplicados_lista(g->array[i], i, &lacos);
     mArestas /= 2;
     uint *valores = malloc(3 * sizeof(uint));
     if(valores) {
