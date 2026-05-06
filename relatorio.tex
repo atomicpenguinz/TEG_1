@@ -57,7 +57,7 @@
 	\begin{center}
 		\vspace{\fill}
 			 Maio\\
-			 2025
+			 2026
 			\end{center}
 \end{titlepage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,6 +104,7 @@ funções que determinam o tipo do grafo (simples ou multigrafo), além da quant
 de laços e/ou arestas múltiplas que ocorrem nele e, como função principal, um
 procedimento que determina quantos componentes conexos existem no grafo, bem como
 sua distribuição e seus respectivos tamanhos.
+
 \newpage
 \section{Solução fornecida e sobre o projeto}
 
@@ -157,7 +158,19 @@ Aqui a implementação foi relativamente direta. Nos dois casos, todas as listas
 têm seus tamanhos contados através de um laço de repetição e o menor/maior número
 é retornado no final.
 
+Algo a se notar é que cada variável é inicializada com o valor do extremo oposto
+do que deve ser, a fim de garantir o comportamento correto das comparações.
+A variável \textit{maior} começa com valor 0, o menor possível para
+\textit{unsigned integers}. Já a variável \textit{menor} inicia com o máximo valor possível
+para um \textit{uint}, dado pela biblioteca limitsh como \textit{UINT\_MAX}.
+
 \subsection{Quantidade de laços e arestas múltiplas}
+
+A existência de laços e/ou arestas múltiplas em um grafo confirma que este é um
+multigrafo. Existem várias abordagens possíveis para a contagem de valores repetidos,
+e a complexidade de cada uma foi levada em conta para a nossa escolha final.
+
+Inicialmente, a ideia foi de fazer a contagem através de uma.
 
 \subsection{Determinação de componentes conexos}
 \newpage
@@ -168,10 +181,7 @@ têm seus tamanhos contados através de um laço de repetição e o menor/maior 
 \section{Análise dos Resultados}
 \newpage
 
-\addcontentsline{toc}{section}{Anexo}
-\section*{Anexo}
+\section{Conclusões}
 \end{document}
-
-
 
 
