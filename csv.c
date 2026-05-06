@@ -30,7 +30,7 @@ Grafo *cria_grafo_csv(char *arquivo) {
         printf("Arquivo %s não encontrado.\n", arquivo);
         return NULL;
     }
-    Grafo *g = cria_grafo(maior_indice(file));
+    Grafo *g = cria_grafo(maior_indice(file) + 1);
     if(!g) {
         printf("Erro na alocação de memória.\n");
         return NULL;
