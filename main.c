@@ -31,6 +31,7 @@ int main() {
             uint *valores = is_multigrafo(grafo);
             if(!valores) {
                 printf("Erro na alocação de memória.\n");
+                free_grafo(grafo);
                 return -3;
             }
 
@@ -77,7 +78,7 @@ int main() {
 
     free_grafo(grafo);
 
-    return 1;
+    return 0;
 }
 
 
