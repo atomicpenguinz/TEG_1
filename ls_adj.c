@@ -149,9 +149,20 @@ uint grau_minimo(Grafo *g) {
     return menor;
 }
 
-//Letra "e" add a BFS para componentes conexos
+//Letra "e" add a busca_largura para componentes conexos
 
-static uint BFS(Grafo *g, uint inicio, bool *visitado) {
+static uint busca_profundidade(Grafo *g, uint raiz, bool* visitados, uint acc /* = 1 */) {
+    visitados[raiz] = 1;
+    Nodo *aux = g->array[raiz];
+    while(aux) {
+        if(!visitados[aux->vertice])
+            acc += busca_profundidade(g, aux->vertice, visitados, 1);
+        aux = aux->prox;
+    }
+    return acc;
+}
+
+static uint busca_largura(Grafo *g, uint inicio, bool *visitado) {
 
     uint *fila = malloc(g->count * sizeof(uint));
     if(!fila) return 0;
@@ -186,7 +197,7 @@ static uint BFS(Grafo *g, uint inicio, bool *visitado) {
     return tamanho;
 }
 
-//aqui determina os componentes conexos usando a BFS 
+//aqui determina os componentes conexos usando a busca_largura 
 InfoComponentes *componentes_conexos(Grafo *g) {
 
     bool *visitado = calloc(g->count, sizeof(bool));
@@ -204,7 +215,7 @@ InfoComponentes *componentes_conexos(Grafo *g) {
 
         if(g->array[i] != NULL && !visitado[i]) {
 
-            tmp[num] = BFS(g, i, visitado);
+            tmp[num] = busca_largura(g, i, visitado);
             num++;
         }
     }
