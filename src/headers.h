@@ -1,8 +1,8 @@
+#include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef unsigned int uint;
 #define ARQUIVO "teste2.csv"
 
 typedef struct nodo {
@@ -34,8 +34,6 @@ InfoComponentes *componentes_conexos(Grafo *g);
 void free_componentes(InfoComponentes *info);
 
 /* csv.c */
-void SSV_para_CSV(char *arquivo);
-uint maior_indice(FILE *f);
 Grafo *cria_grafo_csv(char *arquivo);
 
 /* main.c */

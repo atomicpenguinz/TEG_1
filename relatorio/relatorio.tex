@@ -170,7 +170,11 @@ A existência de laços e/ou arestas múltiplas em um grafo confirma que este é
 multigrafo. Existem várias abordagens possíveis para a contagem de valores repetidos,
 e a complexidade de cada uma foi levada em conta para a nossa escolha final.
 
-Inicialmente, a ideia foi de fazer a contagem através de uma.
+Inicialmente, a ideia foi de fazer a contagem através de um vetor de frequência.
+Nessa estratégia, para cada vértice adjacente na lista, incrementa-se a posição
+correspontende em um vetor auxiliar. Ao final da leitura, valores maiores que 1
+significam a presença de múltiplas arestas. Isso nos permite contabilizar duplicatas
+e laços em complexidade de tempo linear.
 
 \subsection{Determinação de componentes conexos}
 \newpage
