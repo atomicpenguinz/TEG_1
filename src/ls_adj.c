@@ -205,7 +205,6 @@ static uint busca_largura(Grafo *g, uint inicio, bool *visitado) {
 
 //aqui determina os componentes conexos usando a busca_largura 
 InfoComponentes *componentes_conexos(Grafo *g) {
-
     bool *visitado = calloc(g->count, sizeof(bool));
     if(!visitado) return NULL;
 
@@ -218,9 +217,7 @@ InfoComponentes *componentes_conexos(Grafo *g) {
     uint num = 0;
 
     for(uint i = 1; i < g->count; i++) {
-
         if(g->array[i] != NULL && !visitado[i]) {
-
             tmp[num] = busca_profundidade(g, i, visitado);
             num++;
         }
@@ -235,6 +232,12 @@ InfoComponentes *componentes_conexos(Grafo *g) {
 
     info->num_componentes = num;
     info->tamanhos = malloc(num * sizeof(uint));
+    if(!info->tamanhos) {
+        free(visitado);
+        free(tmp);
+        free(info);
+        return NULL;
+    }
 
     for(uint i = 0; i < num; i++)
         info->tamanhos[i] = tmp[i];

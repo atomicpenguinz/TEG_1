@@ -49,7 +49,7 @@ int main() {
 
             if(!info) {
                 printf("Erro na alocação de memória.\n");
-                break;
+                return -4;
             }
 
             printf("Número de componentes conexos: %u\n", info->num_componentes);
@@ -65,7 +65,6 @@ int main() {
             for(uint i = 0; i < info->num_componentes; i++) 
                 printf("      %-5u | %-8u\n", i + 1, info->tamanhos[i]);
             
-
             free_componentes(info);
 
             break;
