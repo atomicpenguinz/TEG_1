@@ -1,4 +1,8 @@
 #include "headers.h"
+#include <limits.h>
+#ifndef UINT_MAX
+#error "UINT_MAX não definido"
+#endif
 
 Grafo *cria_grafo(uint tam) {
     Grafo *novo = malloc(sizeof(Grafo));
@@ -82,8 +86,8 @@ static uint grau_vertice(Nodo *head) {
 }
 
 static int compara_uint(const void *a, const void *b) {
-    uint x = *(const int*)a;
-    uint y= *(const int*)b;
+    uint x = *(const uint*)a;
+    uint y= *(const uint*)b;
     return (x > y) - (x < y);
 }
 
@@ -217,7 +221,7 @@ InfoComponentes *componentes_conexos(Grafo *g) {
 
         if(g->array[i] != NULL && !visitado[i]) {
 
-            tmp[num] = busca_largura(g, i, visitado);
+            tmp[num] = busca_profundidade(g, i, visitado);
             num++;
         }
     }

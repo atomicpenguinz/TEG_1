@@ -59,18 +59,20 @@ int main() {
             else 
                 printf("O grafo é desconexo.\n");
 
-            printf("\nComponente | Tamanho\n");
-            printf("--------------------\n");
+            printf("\n Componente | Tamanho\n");
+            printf(" --------------------\n");
 
             for(uint i = 0; i < info->num_componentes; i++) 
-                printf("%u | %u\n", i + 1, info->tamanhos[i]);
+                printf("      %-5u | %-8u\n", i + 1, info->tamanhos[i]);
             
 
             free_componentes(info);
 
             break;
         }
-            
+        case 5:
+            printf("Quantidade de vértices: %u\n", grafo->count - 1);  
+            break;
         default:
             printf("Opção inválida.\n");
         }
@@ -89,5 +91,6 @@ void menu() {
            "2 - Determinar grau mínimo do grafo\n"
            "3 - Determinar se o grafo é simples ou multigrafo\n"
            "4 - Determinar quantos componentes conexos existem no grafo\n"
+           "5 - Determinar quantidade de vértices no grafo\n"
           );
 }

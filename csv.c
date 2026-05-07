@@ -1,6 +1,6 @@
 #include "headers.h"
 
-uint maior_indice(FILE *f) {
+static uint maior_indice(FILE *f) {
     char line[32];
     uint a, b;
     uint maior = 0;
