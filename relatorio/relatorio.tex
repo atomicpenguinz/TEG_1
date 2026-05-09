@@ -40,7 +40,7 @@
         \vspace{95pt}
         \textbf{\LARGE{Teoria dos Grafos: Tarefa 1}}\\
 
-		\textbf{Representação Computacional de um grafo não-direcionado através de uma Lista de Adjacências}
+		\textbf{Representação Computacional de um grafo não direcionado através de uma Lista de Adjacências}
 		%\title{{\large{Título}}}
 		\vspace{3,5cm}
 	\end{center}
@@ -109,7 +109,7 @@ sua distribuição e seus respectivos tamanhos.
 \section{Solução fornecida e sobre o projeto}
 
 O projeto foi administrado em um \href{https://github.com/atomicpenguinz/TEG_1}{repositório}
-do Github, e separado em arquivos diferentes para melhor organização do trabalho.
+do GitHub, e separado em arquivos diferentes para melhor organização do trabalho.
 Um arquivo para as funções referentes à Lista de Adjacências, outro referente
 a leitura e interpretação do arquivo CSV, outra para a interface de usuário e ainda
 um arquivo header, que possui as definições e protótipos usados nos outros.
@@ -147,7 +147,7 @@ vértice entre 1 e o maior número, o que poderia significar que ele simplesment
 não existe, mas aqui é interpretado como um vértice de grau nulo. Em uma conversa
 com o professor, o mesmo declarou nossa solução como válida.
 
-Ao ler o arquivo, como estamos tratando de grafos não-direcionados, para cada par
+Ao ler o arquivo, como estamos tratando de grafos não direcionados, para cada par
 de valores \textit{a,b} precisamos adicionar um novo \textit{nó} às listas de
 adjacências de ambos os vértices. No caso em que \textit{a = b}, essa inserção é
 realizada apenas uma vez, a fim de evitar a duplicação de laços.
@@ -166,14 +166,49 @@ e a complexidade de cada uma foi levada em conta para a nossa escolha final.
 
 Inicialmente, a ideia foi de fazer a contagem através de um vetor de frequência.
 Nessa estratégia, para cada vértice adjacente na lista, incrementa-se a posição
-correspontende em um vetor auxiliar. Ao final da leitura, valores maiores que 1
+correspondente em um vetor auxiliar. Ao final da leitura, valores maiores que 1
 significam a presença de múltiplas arestas. Isso nos permite contabilizar duplicatas
-e laços em complexidade de tempo linear.
+e laços de maneira linear.
+
+Essa abordagem tem, para cada vértice, complexidade de tempo \textit{O(g + V)},
+onde g é o grau do vértice e V o número total de vértices do grafo. Isso porque
+um vetor de tamanho V era inicializado e percorrido em cada vértice, o que significa
+que a complexidade de espaço também era \textit{O(V)}.
+
+Em grafos esparsos (como
+o analisado), isso significa que ocorre um desperdício de memória, pois grande
+parte do vetor nem chega a ser usada.
+Como o procedimento é executado para cada vértice, a complexidade total da função
+era \(O(V^2 + E)\), onde \(E\) é o número de arestas.
 
 \subsection{Determinação de componentes conexos}
 \newpage
 
-\section{Sobre o ambiente de densenvolvimento e compilação}
+\section{Sobre o ambiente de desenvolvimento e compilação}
+Como explicado anteriormente, um repositório de código-fonte foi instaurado no
+GitHub para uma melhor colaboração.
+
+Como sistema operacional, foram utilizados tanto o Windows (Deivid) quanto GNU/Linux
+(Heitor). Mesmo com ambientes diferentes, miramos em ter uma \textit{codebase}
+compatível, sem usar funções não portáteis, como \textit{system()}.
+
+Sobre os ambientes de desenvolvimento, Deivid usou o \href{https://code.visualstudio.com/}
+{Visual Studio Code}, enquanto Heitor usou o editor de texto \href{https://helix-editor.com}
+{Helix}. Como este não usou uma IDE completa, algumas ferramentas de linha de comando
+foram usadas para emular funcionalidades comuns em outros ambientes, especificamente
+\href{https://invisible-island.net/cproto/cproto.html}{cproto} para a geração automática
+de protótipos e \href{https://astyle.sourceforge.net/}{astyle} como formatador de código.
+
+Como as demais ferramentas, também foi utilizada a linha de comando para compilar
+o projeto, em que foi adotado o compilador de C do \textit{GNU (GCC)}.
+
+O comando para compilar é:
+
+\verb|$ gcc ls_adj.c csv.c main.c -o grafo|
+
+e para iniciar o programa, simplesmente execute:
+
+\verb|$ ./grafo|
 
 \newpage
 \section{Análise dos Resultados}
@@ -181,5 +216,3 @@ e laços em complexidade de tempo linear.
 
 \section{Conclusões}
 \end{document}
-
-
