@@ -1,8 +1,4 @@
 #include "headers.h"
-#include <limits.h>
-#ifndef UINT_MAX
-#error "UINT_MAX não definido"
-#endif
 
 Grafo *cria_grafo(uint tam) {
     Grafo *novo = malloc(sizeof(Grafo));
@@ -217,7 +213,7 @@ InfoComponentes *componentes_conexos(Grafo *g) {
     uint num = 0;
 
     for(uint i = 1; i < g->count; i++) {
-        if(g->array[i] != NULL && !visitado[i]) {
+        if(!visitado[i]) {
             tmp[num] = busca_profundidade(g, i, visitado);
             num++;
         }
