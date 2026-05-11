@@ -170,16 +170,39 @@ correspondente em um vetor auxiliar. Ao final da leitura, valores maiores que 1
 significam a presença de múltiplas arestas. Isso nos permite contabilizar duplicatas
 e laços de maneira linear.
 
-Essa abordagem tem, para cada vértice, complexidade de tempo \textit{O(g + V)},
+Essa abordagem tem, para cada vértice, complexidade de tempo $O(g + V)$,
 onde g é o grau do vértice e V o número total de vértices do grafo. Isso porque
 um vetor de tamanho V era inicializado e percorrido em cada vértice, o que significa
-que a complexidade de espaço também era \textit{O(V)}.
+que a complexidade de espaço também era $O(V)$.
+Em grafos esparsos (como o analisado), isso significa que ocorre um desperdício
+de memória, pois grande parte do vetor nem chega a ser usada.
 
-Em grafos esparsos (como
-o analisado), isso significa que ocorre um desperdício de memória, pois grande
-parte do vetor nem chega a ser usada.
 Como o procedimento é executado para cada vértice, a complexidade total da função
 era \(O(V^2 + E)\), onde \(E\) é o número de arestas.
+Assim, o desempenho dependia fortemente da quantidade total de vértices do grafo,
+e não apenas das arestas existentes.
+
+A segunda abordagem, que acabou sendo escolhida, consiste em copiar os valores da
+lista a um vetor auxiliar e, em seguida, ordená-lo. Após a ordenação, basta percorrer
+o vetor uma única vez verificando elementos consecutivos iguais para identificar
+arestas múltiplas.
+
+Essa implementação possui complexidade $O(g \log g)$ para cada vértice.
+Mesmo sendo \textit{assintoticamente} menos eficiente do que a estratégia com vetor
+de frequência, essa solução tira a dependência do número total de vértices, sendo
+mais "bem comportada" para grafos dos mais diversos tipos.
+
+Além disso, a complexidade espacial passa a ser \textit{O(g)}, já que o vetor
+auxiliar possui tamanho proporcional apenas ao grau do vértice analisado. Em grafos
+esparsos, isso reduz significativamente o consumo de memória.
+Com o procedimento sendo executado para cada vértice, a complexidade temporal
+total da função é de $O(\sum_{i=1}^V g_i \log g_i)$, com limite superior de $O(E\log V)$.
+
+Vale a pena ressaltar que os laços recebem tratamento diferente dos outros vértices
+repetidos. Enquanto arestas múltiplas aparecem duas vezes na lista de adjacência,
+o que faz com que se exija uma divisão por dois no final, laços são armazenados
+apenas uma vez, sendo contabilizados separadamente.
+
 
 \subsection{Determinação de componentes conexos}
 \newpage
