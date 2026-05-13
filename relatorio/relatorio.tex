@@ -16,6 +16,7 @@
     citecolor=green,
 }
 \usepackage{titlesec}
+\usepackage{float}
 
 
 \titleformat{\subsection}
@@ -40,7 +41,8 @@
         \vspace{95pt}
         \textbf{\LARGE{Teoria dos Grafos: Tarefa 1}}\\
 
-		\textbf{Representação Computacional de um grafo não direcionado através de uma Lista de Adjacências}
+		\textbf{Representação Computacional de um grafo não direcionado através
+		de uma Lista de Adjacências}
 		%\title{{\large{Título}}}
 		\vspace{3,5cm}
 	\end{center}
@@ -110,9 +112,14 @@ sua distribuição e seus respectivos tamanhos.
 
 O projeto foi administrado em um \href{https://github.com/atomicpenguinz/TEG_1}{repositório}
 do GitHub, e separado em arquivos diferentes para melhor organização do trabalho.
-Um arquivo para as funções referentes à Lista de Adjacências, outro referente
-a leitura e interpretação do arquivo CSV, outra para a interface de usuário e ainda
-um arquivo header, que possui as definições e protótipos usados nos outros.
+Também usamos a \textit{keyword static} para funções que não são usadas fora do
+próprio arquivo. Isso, somado ao uso de diferentes arquivos, contribui para a
+aplicação das boas práticas de modularização e encapsulamento.
+
+Além disso, utilizamos \textit{unsigned ints} para a representação de vértices. Como
+índices de vetores (usados para acesso às listas) não assumem valores negativos,
+o uso de tipos sem sinal permite aproveitar todos os bits do inteiro, aumentando
+o maior índice representável sem precisar gastar mais memória.
 
 A seguir vai uma explicação simples sobre cada exigência:
 
@@ -187,12 +194,12 @@ lista a um vetor auxiliar e, em seguida, ordená-lo. Após a ordenação, basta 
 o vetor uma única vez verificando elementos consecutivos iguais para identificar
 arestas múltiplas.
 
-Essa implementação possui complexidade $O(g \log g)$ para cada vértice.
+Essa implementação possui complexidade temporal $O(g \log g)$ para cada vértice.
 Mesmo sendo \textit{assintoticamente} menos eficiente do que a estratégia com vetor
 de frequência, essa solução tira a dependência do número total de vértices, sendo
 mais "bem comportada" para grafos dos mais diversos tipos.
 
-Além disso, a complexidade espacial passa a ser \textit{O(g)}, já que o vetor
+Além disso, a complexidade espacial passa a ser $O(g)$, já que o vetor
 auxiliar possui tamanho proporcional apenas ao grau do vértice analisado. Em grafos
 esparsos, isso reduz significativamente o consumo de memória.
 Com o procedimento sendo executado para cada vértice, a complexidade temporal
@@ -205,33 +212,50 @@ apenas uma vez, sendo contabilizados separadamente.
 
 
 \subsection{Determinação de componentes conexos}
-\newpage
 
-Um grafo é dito conexo quando existe caminho entre qualquer par de seus vértices, ou seja, todo vértice está ao alcance de todos os demais. Quando isso não ocorre, o grafo é desconexo e pode ser dividido em partes menores, cada uma conexa. Essas partes são chamadas de componentes conexos.
+Um grafo é dito conexo quando existe caminho entre qualquer par de seus vértices,
+ou seja, todo vértice está ao alcance de todos os demais. Quando isso não ocorre,
+o grafo é desconexo e pode ser dividido em partes menores, cada uma conexa. Essas
+partes são chamadas de componentes conexos.
 
-Um componente conexo é um subgrafo conexo maximal, ou seja, o maior subgrafo possível que mantém a conectividade entre seus vértices. 
+Um componente conexo é um subgrafo conexo maximal, ou seja, o maior subgrafo
+possível que mantém a conectividade entre seus vértices. 
 
-Para identificarmos esses componentes conexos, inicialmente usamos como ideia a busca em largura (BFS), porém durante a análise da implementação, percebemos que a busca em profundidade (DFS), utilizando recursão, tornaria o código mais simples.
+Para identificarmos esses componentes conexos, inicialmente usamos como ideia a
+busca em largura (BFS), porém durante a análise da implementação, percebemos que
+a busca em profundidade (DFS), utilizando recursão, tornaria o código mais simples.
 
-Usamos como base o pseudocódigo de DFS (busca em profundidade) presente nos slides das aulas de Teoria dos Grafos, elaborados pelo Professor Gilmário B. Santos:
+Usamos como base o pseudocódigo de DFS (busca em profundidade) presente nos slides
+das aulas de Teoria dos Grafos, elaborados pelo professor:
 \begin{verbatim}
-
 Função:
-DFS(G,v, M, marca) 
+DFS(G,w, M, marca) 
          marca[v]=1 
-         print(v) 
+         print(v) // substituído pela contagem de vértices
+
          para cada w adjacente a v 
  	             se marca[w]=0 
-                          DFS(G,n,M,marca) 
+                         DFS(G,n,M,marca) 
                     senão 
-                             retorna
+                         retorna
           retorna
 \end{verbatim}
 
-No código, o funcionamento ocorre da seguinte forma: percorrem-se todos os vértices do grafo e, sempre que um vértice ainda não visitado é encontrado, inicia-se uma nova busca a partir dele. Essa busca visita recursivamente todos os vértices que consegue alcançar, marcando-os como visitados e contabilizando quantos pertencem àquele grupo. 
+No código, o funcionamento ocorre da seguinte forma: percorrem-se todos os vértices
+do grafo e, sempre que um vértice ainda não visitado é encontrado, inicia-se uma
+nova busca a partir dele. Essa busca visita recursivamente todos os vértices que
+consegue alcançar, marcando-os como visitados e contabilizando quantos pertencem
+àquele grupo. 
 
-Portanto, cada vez que uma nova busca precisa ser iniciada, significa que um novo componente conexo foi descoberto.
+Portanto, cada vez que uma nova busca precisa ser iniciada, significa que um novo
+componente conexo foi descoberto.
 
+Mesmo preferindo e adotando como padrão a DFS, como a implementação da BFS já
+estava feita, decidimos fazer dela um algoritmo opcional, selecionável através
+de um argumento extra no comando de compilação (Instruções no próximo capítulo).
+A busca em largura tem a vantagem de não usar recursão, o que a faz a melhor escolha
+para grafos grandes.
+\newpage
 
 \section{Sobre o ambiente de desenvolvimento e compilação}
 Como explicado anteriormente, um repositório de código-fonte foi instaurado no
@@ -259,32 +283,92 @@ e para iniciar o programa, simplesmente execute:
 
 \verb|$ ./grafo|
 
+Para utilizar o algoritmo de busca em largura (BFS) em vez da busca em profundidade,
+basta adicionar o argumento \verb|-DBFS| ao comando de compilação:
+
+\verb|$ gcc ls_adj.c csv.c main.c -o grafo -DBFS|
+
 \newpage
 \section{Análise dos Resultados}
+Primeiramente, podemos tentar visualizar a quantidade de componentes conexos através
+de um software dedicado a isso. Inicialmente, usamos o script escrito em python
+distribuído pelo professor:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./imagens/Grafo_3D_colab.png}
+\caption{Visualização 3D do grafo.}
+\includegraphics[width=0.6\textwidth]{./imagens/Grafo_2D_colab.png}
+\caption{Visualização 2D do grafo.}
+\end{figure}
+
+Por meio dessas imagens, é possível concluir que o gráfico é grande demais para
+ser analisado a olho nu, pelo menos através da representação visual dada pelo script.
+
+Em busca de um software de visualização de grafos mais poderoso, achamos o
+\href{https://graphviz.org}{GraphViz}, que possui algoritmos específicos para
+grandes grafos. Tomando proveito de algumas configurações do programa e usando
+o algoritmo \href{https://graphviz.org/docs/layouts/sfdp/}{sfdp}, obtivemos esse
+resultado:
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=\textwidth]{./imagens/grafo_graphviz.png}}
+\caption{Visualização do grafo através do software Graphviz.}
+\end{figure}
+
+A partir da imagem gerada conseguimos ter uma ideia melhor do que esperar como
+\textit{output} do nosso projeto. É possível visualizar claramente 4 componentes
+conexos, sendo que todos aparentam ser caminhos, exceto o mais à esquerda que possui
+um ciclo como subgrafo, fazendo com que, aparentemente, o maior grau do grafo total
+seja 3 (seria o do vértice que faz a conexão entre o subgrafo caminho e ciclo).
+
+\subsection{Resultados obtidos}
+
+A partir da execução das funcionalidades implementadas, foi possível observar
+algumas propriedades relevantes do grafo construído a partir do
+arquivo CSV, que possui 999 vértices identificados.
+
+O grau máximo encontrado foi 3, confirmando o que tínhamos deduzido anteriormente.
+Já a função de grau mínimo encontrou 1 como sendo o menor valor, o que
+nos mostra que não há vértices isolados no grafo. Além disso, fazendo uma análise
+da imagem, podemos entender que os vértices de grau 1 são as extremidades dos
+subgrafos do tipo caminho.
+
+Na verificação de multigrafo, o sistema analisa a existência de laços e arestas
+múltiplas. Essa etapa diferencia grafos simples de estruturas mais complexas.
+Como não foram encontrados laços nem arestas múltiplas, o grafo foi classificado
+como simples.
+
+Na análise de componentes conexos, foram identificados quatro componentes, também
+confirmando nossa análise prévia. Isso significa que não existe um caminho único conectando todos os
+vértices da estrutura. Também conseguimos extrair o tamanho de cada componente.
+
+Através dos resultados obtidos e com a ajuda do software \href{http://gnuplot.info}
+{gnuplot}, criamos um histograma:
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=\textwidth]{./imagens/histograma.png}}
+\caption{Histograma}
+\end{figure}
+
+Aqui é possível ver que os quatro componentes possuem praticamente o mesmo tamanho,
+com apenas um se tendo mínima diferença dos demais
 \newpage
-
-A partir da execução das funcionalidades implementadas, foi possível observar diferentes propriedades estruturais relevantes do grafo construído a partir do arquivo CSV, que possui 999 vértices identificados.
-
-O grau máximo encontrado foi 3, indicando que existe pelo menos um vértice conectado diretamente a três outros vértices. Já a função de grau mínimo encontrou grau 1 como menor valor identificado.
-
-Na verificação de multigrafo, o sistema analisa a existência de laços e arestas múltiplas. Essa etapa diferencia grafos simples de estruturas mais complexas. Como não foram encontrados laços nem arestas múltiplas, o grafo foi classificado como simples.
-
-Na análise de componentes conexos, foram identificados quatro componentes, mostrando que o grafo é desconexo, ou seja, não existe um caminho único conectando todos os vértices da estrutura. Em vez de formar uma única rede totalmente conectada, o grafo está dividido em quatro subgrafos independentes.
-
-Utilizando a base de dados "teste2.csv", os componentes encontrados foram:
-
-Componente 1: 250 vértices
-Componente 2: 249 vértices
-Componente 3: 250 vértices
-Componente 4: 250 vértices
-
-
 \section{Considerações Finais}
 
-Com o desenvolvimento deste trabalho, foi possível aplicar na prática conceitos fundamentais de Teoria dos Grafos, como grau de vértices, classificação entre grafo simples e multigrafo, além da identificação de componentes conexos.
+Com o desenvolvimento deste trabalho, foi possível aplicar na prática conceitos
+fundamentais de Teoria dos Grafos, como grau de vértices, classificação entre grafo
+ simples e multigrafo, além da identificação de componentes conexos.
 
-A implementação permitiu compreender melhor o uso de algoritmos de busca em grafos, tanto a busca em profundidade (DFS) quanto a busca em largura (BFS), sendo que a DFS se mostrou uma solução mais simples e adequada para a identificação dos componentes conexos no grafo analisado.
+A implementação permitiu compreender melhor o uso de algoritmos de busca em grafos,
+tanto a busca em profundidade (DFS) quanto a busca em largura (BFS), sendo que a
+DFS se mostrou uma solução mais simples e \textit{inteligível}.
 
-Por meio dos resultados obtidos com o arquivo teste2.csv, foi possível verificar que a estrutura analisada é um grafo simples e desconexo, dividido em quatro componentes principais. Dessa forma, o trabalho contribuiu tanto para o entendimento teórico quanto para a aplicação prática dos algoritmos estudados na disciplina.
+Por meio dos resultados obtidos, foi possível verificar
+que a estrutura analisada é um grafo simples e desconexo, dividido em quatro
+componentes principais. Dessa forma, o trabalho contribuiu tanto para o entendimento
+teórico quanto para a aplicação prática dos algoritmos estudados na disciplina.
 
 \end{document}
