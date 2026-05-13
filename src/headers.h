@@ -1,14 +1,21 @@
-#include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef unsigned int uint;
+typedef unsigned int uint; // aparentemente necessário no Windows/VSCode (?)
 
 #define ARQUIVO "teste2.csv"
 
+#ifdef BFS
+    #define busca busca_largura
+    #define PRINT_BUSCA printf("Busca em largura:\n");
+#else
+    #define busca busca_profundidade
+    #define PRINT_BUSCA printf("Busca em profundidade:\n");
+#endif
+
 typedef struct nodo {
-    int vertice;
+    uint vertice;
     struct nodo *prox;
 } Nodo;
 

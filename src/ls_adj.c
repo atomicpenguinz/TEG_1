@@ -16,16 +16,15 @@ Grafo *cria_grafo(uint tam) {
 
 static void free_lista(Nodo *head) {
     if(!head) return;
-    free_lista(head->prox);
+    Nodo *aux = head->prox;
     free(head);
+    free_lista(aux);
 }
 
 void free_grafo(Grafo *g) {
     for(uint i = 0; i < g->count; i++)
         free_lista(g->array[i]);
     free(g->array);
-    g->array = NULL;
-    g->count = 0;
     free(g);
 }
 
@@ -116,6 +115,7 @@ uint *is_multigrafo(Grafo *g) {
     for(int i = 1; i < g->count; i++)
         mArestas += duplicados_lista(g->array[i], i, &lacos);
     mArestas /= 2;
+
     uint *valores = malloc(3 * sizeof(uint));
     if(valores) {
         valores[0] = lacos + mArestas;
@@ -149,8 +149,6 @@ uint grau_minimo(Grafo *g) {
     }
     return menor;
 }
-
-//Letra "e" add a busca_largura para componentes conexos
 
 static uint busca_profundidade(Grafo *g, uint raiz, bool* visitados) {
     visitados[raiz] = 1;
@@ -199,7 +197,7 @@ static uint busca_largura(Grafo *g, uint inicio, bool *visitado) {
     return tamanho;
 }
 
-//aqui determina os componentes conexos usando a busca_largura 
+//aqui determina os componentes conexos usando a busca_largura ou 
 InfoComponentes *componentes_conexos(Grafo *g) {
     bool *visitado = calloc(g->count, sizeof(bool));
     if(!visitado) return NULL;
@@ -214,7 +212,7 @@ InfoComponentes *componentes_conexos(Grafo *g) {
 
     for(uint i = 1; i < g->count; i++) {
         if(!visitado[i]) {
-            tmp[num] = busca_profundidade(g, i, visitado);
+            tmp[num] = busca(g, i, visitado);
             num++;
         }
     }
